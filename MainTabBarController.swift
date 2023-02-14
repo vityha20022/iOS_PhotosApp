@@ -11,6 +11,23 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .gray
+        view.backgroundColor = .systemBackground
+        tabBar.isTranslucent = false
+        
+        let photosVC = PhotosCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        
+        viewControllers = [
+            generateNavigationController(rootViewController: photosVC, title: "Photos", image: UIImage(systemName: "photo.fill")!),
+            generateNavigationController(rootViewController: ViewController(), title: "Favourites", image: UIImage(systemName: "heart.fill")!)
+        ]
+    }
+    
+    private func generateNavigationController(rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
+        let navigationVC = UINavigationController(rootViewController: rootViewController)
+        navigationVC.tabBarItem.title = title
+        navigationVC.tabBarItem.image = image
+        navigationVC.navigationBar.isTranslucent = false
+        
+        return navigationVC
     }
 }
