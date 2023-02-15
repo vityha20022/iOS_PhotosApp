@@ -27,6 +27,11 @@ class NetworkService {
         requestData(params: nil, scheme: "https", host: "api.unsplash.com", path: "/photos/" + id, completion: completion)
     }
     
+    func requestGettingRandomPhotos(completion: @escaping (Data?, Error?) -> Void) {
+        let parameters = self.prepareParametersForGettingRandomPhotos()
+        requestData(params: parameters, scheme: "https", host: "api.unsplash.com", path: "/photos/random", completion: completion)
+    }
+    
     private func prepareHeaders() -> [String: String]? {
         var headers = [String: String]()
         headers["Authorization"] = "Client-ID WrLL6Mg-UXpHwxPvlouhG64T_jvR3b3_6D0eT6D4Vjs"
@@ -38,6 +43,13 @@ class NetworkService {
         parameters["query"] = searchTerm
         parameters["page"] = String(1)
         parameters["per_page"] = String(30)
+        
+        return parameters
+    }
+    
+    private func prepareParametersForGettingRandomPhotos() -> [String: String] {
+        var parameters = [String: String]()
+        parameters["count"] = String(30)
         
         return parameters
     }

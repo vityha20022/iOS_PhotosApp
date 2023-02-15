@@ -21,6 +21,18 @@ class NetworkDataFetcher {
         }
     }
     
+    func fetchRandomImages(completion: @escaping ([UnsplashPhoto]?) -> Void) {
+        networkService.requestGettingRandomPhotos { data, error in
+            if let error = error {
+                print("Error received requesting data: \(error.localizedDescription)")
+                completion(nil)
+            }
+            
+            let decode = self.decodeJSON(type: [UnsplashPhoto].self, from: data)
+            completion(decode)
+        }
+    }
+    
     func fetchImage(id: String, completion: @escaping (GettingPhotoResults?) -> Void) {
         networkService.requestGettingPhoto(id: id) { data, error in
             if let error = error {
