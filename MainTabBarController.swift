@@ -12,7 +12,6 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        tabBar.isTranslucent = false
         
         let photosVC = PhotosCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         
@@ -26,7 +25,6 @@ class MainTabBarController: UITabBarController {
         let navigationVC = UINavigationController(rootViewController: rootViewController)
         navigationVC.tabBarItem.title = title
         navigationVC.tabBarItem.image = image
-        navigationVC.navigationBar.isTranslucent = false
         
         return navigationVC
     }

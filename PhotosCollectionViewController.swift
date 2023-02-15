@@ -77,6 +77,13 @@ class PhotosCollectionViewController: UICollectionViewController {
         photos.count
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photoDetailInformationVC = PhotoDetailInformationViewController()
+        let unsplashPhoto = photos[indexPath.item]
+        photoDetailInformationVC.unsplashPhoto = unsplashPhoto
+        navigationController?.pushViewController(photoDetailInformationVC, animated: true)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.reuseId, for: indexPath) as! PhotosCollectionViewCell
         let unsplashPhoto = photos[indexPath.item]

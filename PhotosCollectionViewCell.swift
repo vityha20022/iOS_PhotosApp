@@ -15,6 +15,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .systemBackground
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -46,7 +48,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
     }
     
     required init?(coder: NSCoder) {
