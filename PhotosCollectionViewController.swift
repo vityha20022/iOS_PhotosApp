@@ -8,7 +8,9 @@
 import UIKit
 
 class PhotosCollectionViewController: UICollectionViewController {
-    var networkService = NetworkService()
+    
+    var networkDataFetcher = NetworkDataFetcher()
+    private var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,8 +64,11 @@ class PhotosCollectionViewController: UICollectionViewController {
 
 extension PhotosCollectionViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        networkService.request(searchTerm: searchText) { _ in
-            print("1, 2, 3")
-        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+            self.networkDataFetcher.fetchImages(searchTerm: searchText) { searchResults in
+                print(searchResults?.results[0])
+            }
+        })
     }
 }
