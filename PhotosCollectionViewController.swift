@@ -8,6 +8,8 @@
 import UIKit
 
 class PhotosCollectionViewController: UICollectionViewController {
+    var networkService = NetworkService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +62,8 @@ class PhotosCollectionViewController: UICollectionViewController {
 
 extension PhotosCollectionViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        networkService.request(searchTerm: searchText) { _ in
+            print("1, 2, 3")
+        }
     }
 }
