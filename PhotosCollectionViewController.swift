@@ -34,6 +34,7 @@ class PhotosCollectionViewController: UICollectionViewController {
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.reuseId)
         collectionView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.keyboardDismissMode = .onDrag
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
@@ -104,6 +105,11 @@ extension PhotosCollectionViewController: UISearchBarDelegate {
                 self.collectionView.reloadData()
             }
         })
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.photos = self.randomPhotos
+        self.collectionView.reloadData()
     }
 }
 
