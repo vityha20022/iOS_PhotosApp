@@ -9,13 +9,13 @@ import Foundation
 
 let favouritesDataKey = "favouritesData"
 
-var favouritesPhotosList: [String: GettingPhotoResults] {
+var favouritesPhotos: [String: GettingPhotoResults] {
     get {
-        guard let decodedfavouritesData = UserDefaults.standard.data(forKey: favouritesDataKey) else {
+        guard let decodedFavouritesData = UserDefaults.standard.data(forKey: favouritesDataKey) else {
             return [String: GettingPhotoResults]()
         }
 
-        let encodedFavouritesData = try! PropertyListDecoder().decode([String: GettingPhotoResults].self, from: decodedfavouritesData)
+        let encodedFavouritesData = try! PropertyListDecoder().decode([String: GettingPhotoResults].self, from: decodedFavouritesData)
 
         return encodedFavouritesData
     }
@@ -28,21 +28,30 @@ var favouritesPhotosList: [String: GettingPhotoResults] {
 }
 
 func isFavouritePhoto(id: String) -> Bool {
-    return favouritesPhotosList[id] != nil
+    return favouritesPhotos[id] != nil
 }
 
 func addFavouritePhoto(id: String, photo: GettingPhotoResults) {
-    favouritesPhotosList[id] = photo
+    favouritesPhotos[id] = photo
 }
 
 func removeFavouritePhoto(id: String) {
-    favouritesPhotosList.removeValue(forKey: id)
+    favouritesPhotos.removeValue(forKey: id)
 }
 
 func getFavouritePhoto(id: String) -> GettingPhotoResults? {
-    return favouritesPhotosList[id]
+    return favouritesPhotos[id]
+}
+
+func getFavouritesPhotosList() -> [GettingPhotoResults] {
+    var favouritesPhotosList = Array(favouritesPhotos.values)
+    favouritesPhotosList.sort { first, second in
+        return first.user.name < second.user.name
+    }
+    
+    return favouritesPhotosList
 }
 
 func getFavouritesPhotosCount() -> Int {
-    return favouritesPhotosList.count
+    return favouritesPhotos.count
 }

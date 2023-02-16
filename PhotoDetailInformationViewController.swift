@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVFoundation
+import SDWebImage
 
 class PhotoDetailInformationViewController: UIViewController {
     
@@ -15,9 +17,9 @@ class PhotoDetailInformationViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .systemBackground
-        imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -27,9 +29,15 @@ class PhotoDetailInformationViewController: UIViewController {
             guard let imageUrl = photoUrl, let url = URL(string: imageUrl) else {
                 return
             }
-            
-            photoImageView.sd_setImage(with: url)
+            let transformer = SDImageResizingTransformer(size: CGSize(width: 400, height: 250), scaleMode: .fill)
+            photoImageView.sd_setImage(with: url,
+                                       placeholderImage: UIColor.systemBackground.image(CGSize(width: 400, height: 250)),
+                                       context: [.imageTransformer: transformer],
+                                       progress: nil)
         }
+        
+        // ,
+        // context: [.imageTransformer: transformer]
     }
     
     var unsplashPhotoDetails: GettingPhotoResults?
@@ -50,14 +58,9 @@ class PhotoDetailInformationViewController: UIViewController {
     
     private func setupImageView() {
         view.addSubview(photoImageView)
-        photoImageView.image = photoImageView.image?.resized(to: CGSize(width: 400, height: 250))
-        
         photoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        
         photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        
-        photoImageView.isUserInteractionEnabled = true
     }
     
     private func setupLabels() {
