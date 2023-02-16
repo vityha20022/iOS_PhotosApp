@@ -9,41 +9,46 @@ import Foundation
 
 class NetworkDataFetcher {
     var networkService = NetworkService()
-    func fetchImages(searchTerm: String, completion: @escaping (SearchPhotosResults?) -> Void) {
+    
+    // MARK: - Fetch functions
+    
+    func fetchSearchImages(searchTerm: String, completion: @escaping (UnsplashSearchPhotosResults?) -> Void) {
         networkService.requestSearchingPhoto(searchTerm: searchTerm) { data, error in
             if let error = error {
                 print("Error received requesting data: \(error.localizedDescription)")
                 completion(nil)
             }
             
-            let decode = self.decodeJSON(type: SearchPhotosResults.self, from: data)
+            let decode = self.decodeJSON(type: UnsplashSearchPhotosResults.self, from: data)
             completion(decode)
         }
     }
     
-    func fetchRandomImages(completion: @escaping ([UnsplashPhoto]?) -> Void) {
+    func fetchRandomImages(completion: @escaping ([UnsplashSearchPhoto]?) -> Void) {
         networkService.requestGettingRandomPhotos { data, error in
             if let error = error {
                 print("Error received requesting data: \(error.localizedDescription)")
                 completion(nil)
             }
             
-            let decode = self.decodeJSON(type: [UnsplashPhoto].self, from: data)
+            let decode = self.decodeJSON(type: [UnsplashSearchPhoto].self, from: data)
             completion(decode)
         }
     }
     
-    func fetchImage(id: String, completion: @escaping (GettingPhotoResults?) -> Void) {
+    func fetchImage(id: String, completion: @escaping (UnsplashPhoto?) -> Void) {
         networkService.requestGettingPhoto(id: id) { data, error in
             if let error = error {
                 print("Error received requesting data: \(error.localizedDescription)")
                 completion(nil)
             }
             
-            let decode = self.decodeJSON(type: GettingPhotoResults.self, from: data)
+            let decode = self.decodeJSON(type: UnsplashPhoto.self, from: data)
             completion(decode)
         }
     }
+    
+    // MARK: - JSON functions
     
     func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {
         let decoder = JSONDecoder()

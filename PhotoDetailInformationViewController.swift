@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AVFoundation
 import SDWebImage
 
 class PhotoDetailInformationViewController: UIViewController {
@@ -23,7 +22,7 @@ class PhotoDetailInformationViewController: UIViewController {
         return imageView
     }()
     
-    var unsplashPhoto: UnsplashPhoto! {
+    var unsplashPhoto: UnsplashSearchPhoto! {
         didSet {
             let photoUrl = unsplashPhoto.urls["regular"]
             guard let imageUrl = photoUrl, let url = URL(string: imageUrl) else {
@@ -39,9 +38,9 @@ class PhotoDetailInformationViewController: UIViewController {
     
     let favouriteButton = UIButton()
     
-    var unsplashPhotoDetails: GettingPhotoResults?
+    var unsplashPhotoDetails: UnsplashPhoto?
     
-    var previous: UILabel?
+    var previousInfoLabel: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,7 +120,7 @@ class PhotoDetailInformationViewController: UIViewController {
         headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         headerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
         headerLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        if let previous = previous {
+        if let previous = previousInfoLabel {
             headerLabel.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 10).isActive = true
         } else {
             headerLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 10).isActive = true
@@ -138,7 +137,7 @@ class PhotoDetailInformationViewController: UIViewController {
         infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
         infoLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
-        previous = infoLabel
+        previousInfoLabel = infoLabel
     }
     
     func updateFavouriteButtonState() {
@@ -154,7 +153,7 @@ class PhotoDetailInformationViewController: UIViewController {
                 sender.isSelected = !sender.isSelected
             }
         } else {
-            let removeAlert = UIAlertController(title: "Remove from favourite",
+            let removeAlert = UIAlertController(title: "Remove from favourites",
                                                 message: """
                                                 Are you sure you want to remove
                                                 the photo from the favorites list?

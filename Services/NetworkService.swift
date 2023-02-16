@@ -8,6 +8,9 @@
 import Foundation
 
 class NetworkService {
+    
+    // MARK: - Network requests
+    
     func requestData(params: [String: String]?, scheme: String, host: String, path: String, completion: @escaping (Data?, Error?) -> Void) {
         let url = self.url(params: params, scheme: scheme, host: host, path: path)
         var request = URLRequest(url: url)
@@ -31,6 +34,8 @@ class NetworkService {
         let parameters = self.prepareParametersForGettingRandomPhotos()
         requestData(params: parameters, scheme: "https", host: "api.unsplash.com", path: "/photos/random", completion: completion)
     }
+    
+    // MARK: - Functions for preparing network request parameters
     
     private func prepareHeaders() -> [String: String]? {
         var headers = [String: String]()
@@ -66,6 +71,8 @@ class NetworkService {
         
         return components.url!
     }
+    
+    // MARK: - URLSession functions
     
     private func createDataTask(from request: URLRequest, completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
         return URLSession.shared.dataTask(with: request) { data, _, error in

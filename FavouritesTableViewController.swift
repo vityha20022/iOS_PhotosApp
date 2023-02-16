@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var favouritesPhotosList: [GettingPhotoResults] {
+    var favouritesPhotosList: [UnsplashPhoto] {
         let photosList = getFavouritesPhotosList()
         return photosList
     }
@@ -19,6 +19,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         table.register(UITableViewCell.self, forCellReuseIdentifier: "favouritePhotoCell")
         return table
     }()
+    
+    // MARK: - View life cycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +43,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         favouritesTableView.frame = view.bounds
     }
+    
+    // MARK: - UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favouritesPhotosList.count
@@ -74,7 +78,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let photoDetailInformationVC = PhotoDetailInformationViewController()
         let favouritePhoto = favouritesPhotosList[indexPath.row]
-        photoDetailInformationVC.unsplashPhoto = UnsplashPhoto(id: favouritePhoto.id, width: favouritePhoto.width, height: favouritePhoto.height, urls: favouritePhoto.urls)
+        photoDetailInformationVC.unsplashPhoto = UnsplashSearchPhoto(id: favouritePhoto.id,
+                                                                     width: favouritePhoto.width,
+                                                                     height: favouritePhoto.height,
+                                                                     urls: favouritePhoto.urls)
         navigationController?.pushViewController(photoDetailInformationVC, animated: true)
     }
     
@@ -89,6 +96,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+    
+    // MARK: - Setup UI Elements
     
     private func setupNavigationBar() {
         let titleLabel = UILabel()

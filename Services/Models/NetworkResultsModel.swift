@@ -15,12 +15,12 @@ enum URLKind: String {
     case thumb
 }
 
-struct SearchPhotosResults: Codable {
+struct UnsplashSearchPhotosResults: Codable {
     let total: Int
-    let results: [UnsplashPhoto]
+    let results: [UnsplashSearchPhoto]
 }
 
-struct GettingPhotoResults: Codable {
+struct UnsplashPhoto: Codable {
     let id: String
     let width: Int
     let height: Int
@@ -28,23 +28,22 @@ struct GettingPhotoResults: Codable {
     let created_at: String
     // swiftlint: enable identifier_name
     let downloads: Int
-    let location: PhotoLocation
-    let user: PhotoAuthor
+    let location: UnsplashPhotoLocation
+    let user: UnsplashPhotoAuthor
     let urls: [URLKind.RawValue: String]
 }
 
-struct UnsplashPhoto: Codable {
+struct UnsplashSearchPhoto: Codable {
     let id: String
     let width: Int
     let height: Int
-    
     let urls: [URLKind.RawValue: String]
 }
 
-struct PhotoLocation: Codable {
+struct UnsplashPhotoLocation: Codable {
     let country: String?
 }
 
-struct PhotoAuthor: Codable {
+struct UnsplashPhotoAuthor: Codable {
     let name: String
 }

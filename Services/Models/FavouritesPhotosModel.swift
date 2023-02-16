@@ -9,13 +9,13 @@ import Foundation
 
 let favouritesDataKey = "favouritesData"
 
-var favouritesPhotos: [String: GettingPhotoResults] {
+var favouritesPhotos: [String: UnsplashPhoto] {
     get {
         guard let decodedFavouritesData = UserDefaults.standard.data(forKey: favouritesDataKey) else {
-            return [String: GettingPhotoResults]()
+            return [String: UnsplashPhoto]()
         }
 
-        let encodedFavouritesData = try! PropertyListDecoder().decode([String: GettingPhotoResults].self, from: decodedFavouritesData)
+        let encodedFavouritesData = try! PropertyListDecoder().decode([String: UnsplashPhoto].self, from: decodedFavouritesData)
 
         return encodedFavouritesData
     }
@@ -31,7 +31,7 @@ func isFavouritePhoto(id: String) -> Bool {
     return favouritesPhotos[id] != nil
 }
 
-func addFavouritePhoto(id: String, photo: GettingPhotoResults) {
+func addFavouritePhoto(id: String, photo: UnsplashPhoto) {
     favouritesPhotos[id] = photo
 }
 
@@ -39,11 +39,11 @@ func removeFavouritePhoto(id: String) {
     favouritesPhotos.removeValue(forKey: id)
 }
 
-func getFavouritePhoto(id: String) -> GettingPhotoResults? {
+func getFavouritePhoto(id: String) -> UnsplashPhoto? {
     return favouritesPhotos[id]
 }
 
-func getFavouritesPhotosList() -> [GettingPhotoResults] {
+func getFavouritesPhotosList() -> [UnsplashPhoto] {
     var favouritesPhotosList = Array(favouritesPhotos.values)
     favouritesPhotosList.sort { first, second in
         return first.user.name < second.user.name

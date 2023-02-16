@@ -15,8 +15,8 @@ class PhotosCollectionViewController: UICollectionViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private var photos = [UnsplashPhoto]()
-    private var randomPhotos = [UnsplashPhoto]()
+    private var photos = [UnsplashSearchPhoto]()
+    private var randomPhotos = [UnsplashSearchPhoto]()
     
     private let itemPerRow: CGFloat = 2
     private let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -102,7 +102,7 @@ extension PhotosCollectionViewController: UISearchBarDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
             if !searchText.isEmpty {
-                self.networkDataFetcher.fetchImages(searchTerm: searchText) { [weak self] searchResults in
+                self.networkDataFetcher.fetchSearchImages(searchTerm: searchText) { [weak self] searchResults in
                     guard let fetchedPhotos = searchResults else {
                         return
                     }
@@ -134,11 +134,15 @@ extension PhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: widthPerItem, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
 }

@@ -10,6 +10,16 @@ import SDWebImage
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     static let reuseId = "PhotosCollectionViewCell"
+    var unsplashPhoto: UnsplashSearchPhoto! {
+        didSet {
+            let photoUrl = unsplashPhoto.urls["regular"]
+            guard let imageUrl = photoUrl, let url = URL(string: imageUrl) else {
+                return
+            }
+            
+            photoImageView.sd_setImage(with: url)
+        }
+    }
     
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -21,15 +31,15 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    var unsplashPhoto: UnsplashPhoto! {
-        didSet {
-            let photoUrl = unsplashPhoto.urls["regular"]
-            guard let imageUrl = photoUrl, let url = URL(string: imageUrl) else {
-                return
-            }
-            
-            photoImageView.sd_setImage(with: url)
-        }
+    // MARK: - UICollectionViewCell
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupPhotoImageView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {
@@ -37,20 +47,12 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         photoImageView.image = nil
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupPhotoImageView()
-    }
-    
+    // MARK: - Setup UI Elements
     private func setupPhotoImageView() {
         addSubview(photoImageView)
         photoImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
