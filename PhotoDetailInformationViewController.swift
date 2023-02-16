@@ -35,10 +35,9 @@ class PhotoDetailInformationViewController: UIViewController {
                                        context: [.imageTransformer: transformer],
                                        progress: nil)
         }
-        
-        // ,
-        // context: [.imageTransformer: transformer]
     }
+    
+    let favouriteButton = UIButton()
     
     var unsplashPhotoDetails: GettingPhotoResults?
     
@@ -52,6 +51,12 @@ class PhotoDetailInformationViewController: UIViewController {
         setupImageView()
         setupLabels()
         setupFavouritesButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateFavouriteButtonState()
     }
     
     // MARK: - Setup UI Elements
@@ -83,7 +88,6 @@ class PhotoDetailInformationViewController: UIViewController {
     }
     
     private func setupFavouritesButton() {
-        let favouriteButton = UIButton()
         photoImageView.addSubview(favouriteButton)
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 200, weight: .regular, scale: .large)
         favouriteButton.setImage(UIImage(systemName: "heart", withConfiguration: largeConfig), for: .normal)
@@ -135,6 +139,10 @@ class PhotoDetailInformationViewController: UIViewController {
         infoLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         previous = infoLabel
+    }
+    
+    func updateFavouriteButtonState() {
+        favouriteButton.isSelected = isFavouritePhoto(id: unsplashPhoto.id)
     }
     
     // MARK: - Selectors

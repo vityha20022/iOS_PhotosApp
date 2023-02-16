@@ -82,6 +82,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 100
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let favouritePhoto = favouritesPhotosList[indexPath.row]
+            removeFavouritePhoto(id: favouritePhoto.id)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     private func setupNavigationBar() {
         let titleLabel = UILabel()
         titleLabel.text = "FAVOURITES"
