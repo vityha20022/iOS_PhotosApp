@@ -140,12 +140,25 @@ class PhotoDetailInformationViewController: UIViewController {
         if !sender.isSelected {
             if let photoDetails = unsplashPhotoDetails {
                 addFavouritePhoto(id: photoDetails.id, photo: photoDetails)
+                sender.isSelected = !sender.isSelected
             }
         } else {
-            removeFavouritePhoto(id: unsplashPhoto.id)
+            let removeAlert = UIAlertController(title: "Remove from favourite",
+                                                message: """
+                                                Are you sure you want to remove
+                                                the photo from the favorites list?
+                                                """,
+                                                preferredStyle: .alert)
+            
+            removeAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                removeFavouritePhoto(id: self.unsplashPhoto.id)
+                sender.isSelected = !sender.isSelected
+            }))
+            
+            removeAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            present(removeAlert, animated: true)
         }
-        
-        sender.isSelected = !sender.isSelected
     }
 }
 
