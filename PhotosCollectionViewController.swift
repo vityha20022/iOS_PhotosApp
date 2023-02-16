@@ -10,7 +10,9 @@ import UIKit
 class PhotosCollectionViewController: UICollectionViewController {
     
     var networkDataFetcher = NetworkDataFetcher()
+    
     private var timer: Timer?
+    
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     private var photos = [UnsplashPhoto]()

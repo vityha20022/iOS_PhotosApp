@@ -8,6 +8,9 @@
 import UIKit
 
 class PhotoDetailInformationViewController: UIViewController {
+    
+    var networkDataFetcher = NetworkDataFetcher()
+    
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,6 +32,8 @@ class PhotoDetailInformationViewController: UIViewController {
         }
     }
     
+    var unsplashPhotoDetails: GettingPhotoResults?
+    
     var previous: UILabel?
     
     override func viewDidLoad() {
@@ -36,16 +41,68 @@ class PhotoDetailInformationViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
+        setupImageView()
+        setupLabels()
+        setupFavouritesButton()
+    }
+    
+    // MARK: - Setup UI Elements
+    
+    private func setupImageView() {
         view.addSubview(photoImageView)
         photoImageView.image = photoImageView.image?.resized(to: CGSize(width: 400, height: 250))
         
-        photoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        photoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         
         photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
-        setupLabels()
+        photoImageView.isUserInteractionEnabled = true
     }
+    
+    private func setupLabels() {
+        let imageId = unsplashPhoto.id
+        networkDataFetcher.fetchImage(id: imageId) { result in
+            guard let fetchedImage = result else {
+                return
+            }
+            self.unsplashPhotoDetails = fetchedImage
+            self.addInfoLabels(headerName: "Author", info: fetchedImage.user.name)
+            let isoDate = fetchedImage.created_at
+            let isoDateFormatter = ISO8601DateFormatter()
+            let date = isoDateFormatter.date(from: isoDate)!
+            let regularDateFormatter = DateFormatter()
+            regularDateFormatter.dateFormat = "dd/MM/YY"
+            self.addInfoLabels(headerName: "Created at", info: regularDateFormatter.string(from: date))
+            self.addInfoLabels(headerName: "Location", info: fetchedImage.location.country ?? "No information")
+            self.addInfoLabels(headerName: "Downloads", info: String(fetchedImage.downloads))
+        }
+    }
+    
+    private func setupFavouritesButton() {
+        let favouriteButton = UIButton()
+        photoImageView.addSubview(favouriteButton)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 200, weight: .regular, scale: .large)
+        favouriteButton.setImage(UIImage(systemName: "heart", withConfiguration: largeConfig), for: .normal)
+        favouriteButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: largeConfig), for: .selected)
+        favouriteButton.tintColor = .white
+        
+        favouriteButton.isSelected = false
+        
+        if isFavouritePhoto(id: unsplashPhoto.id) {
+            favouriteButton.isSelected = true
+        }
+        
+        favouriteButton.addTarget(self, action: #selector(favouritesButtonPressed), for: .touchUpInside)
+
+        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favouriteButton.topAnchor.constraint(equalTo: photoImageView.topAnchor, constant: 15).isActive = true
+        favouriteButton.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: -15).isActive = true
+        favouriteButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        favouriteButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    // MARK: - Utils functions
     
     private func addInfoLabels(headerName: String, info: String) {
         let headerLabel = UILabel()
@@ -77,13 +134,22 @@ class PhotoDetailInformationViewController: UIViewController {
         previous = infoLabel
     }
     
-    private func setupLabels() {
-        addInfoLabels(headerName: "Author", info: "Victor Borisovskiy")
-        addInfoLabels(headerName: "Created at", info: "05.12.1998")
-        addInfoLabels(headerName: "Location", info: "Omsk")
-        addInfoLabels(headerName: "Downloads", info: "235")
+    // MARK: - Selectors
+    
+    @objc func favouritesButtonPressed(sender: UIButton!) {
+        if !sender.isSelected {
+            if let photoDetails = unsplashPhotoDetails {
+                addFavouritePhoto(id: photoDetails.id, photo: photoDetails)
+            }
+        } else {
+            removeFavouritePhoto(id: unsplashPhoto.id)
+        }
+        
+        sender.isSelected = !sender.isSelected
     }
 }
+
+// MARK: - UIImage
 
 extension UIImage {
     func resized(to size: CGSize) -> UIImage {

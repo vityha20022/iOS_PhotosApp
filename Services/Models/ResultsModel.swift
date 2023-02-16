@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct SearchPhotosResults: Decodable {
+struct SearchPhotosResults: Codable {
     let total: Int
     let results: [UnsplashPhoto]
 }
 
-struct GettingPhotoResults: Decodable {
+struct GettingPhotoResults: Codable {
+    let id: String
     // swiftlint: disable identifier_name
     let created_at: String
     // swiftlint: enable identifier_name
@@ -21,7 +22,7 @@ struct GettingPhotoResults: Decodable {
     let user: PhotoAuthor
 }
 
-struct UnsplashPhoto: Decodable {
+struct UnsplashPhoto: Codable {
     let id: String
     let width: Int
     let height: Int
@@ -37,10 +38,10 @@ struct UnsplashPhoto: Decodable {
     }
 }
 
-struct PhotoLocation: Decodable {
-    let name: String
+struct PhotoLocation: Codable {
+    let country: String?
 }
 
-struct PhotoAuthor: Decodable {
+struct PhotoAuthor: Codable {
     let name: String
 }
