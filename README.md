@@ -19,3 +19,6 @@ PhotosApp is an application for viewing photos from the unsplash library, in whi
 
 ## Remove from favourites alert
 <img src="/Screenshots/removeAlert.png" alt="drawing" width="200" height="400"/>
+
+## Edit favourites list
+<img src="/Screenshots/editFavourites.png" alt="drawing" width="200" height="400"/>
