@@ -96,15 +96,12 @@
 			children = (
 				9792CD90299C4D2E00A1D6D3 /* AppDelegate.swift */,
 				9792CD92299C4D2E00A1D6D3 /* SceneDelegate.swift */,
+				97C8CBB1299F65700039CCDE /* Views */,
+				97C8CBB0299F653B0039CCDE /* Controllers */,
 				9792CDAB299C639000A1D6D3 /* Services */,
-				9792CD94299C4D2E00A1D6D3 /* FavouritesTableViewController.swift */,
 				9792CD99299C4D2F00A1D6D3 /* Assets.xcassets */,
 				9792CD9B299C4D2F00A1D6D3 /* LaunchScreen.storyboard */,
 				9792CD9E299C4D2F00A1D6D3 /* Info.plist */,
-				9792CDA4299C4D8800A1D6D3 /* MainTabBarController.swift */,
-				9792CDA7299C50A300A1D6D3 /* PhotosCollectionViewController.swift */,
-				9792CDB6299D0F4600A1D6D3 /* PhotosCollectionViewCell.swift */,
-				97AD025C299D357C00CF34D5 /* PhotoDetailInformationViewController.swift */,
 			);
 			path = PhotosApp;
 			sourceTree = "<group>";
@@ -126,6 +123,25 @@
 				97AD025E299E778000CF34D5 /* FavouritesPhotosModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		97C8CBB0299F653B0039CCDE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9792CD94299C4D2E00A1D6D3 /* FavouritesTableViewController.swift */,
+				9792CDA4299C4D8800A1D6D3 /* MainTabBarController.swift */,
+				9792CDA7299C50A300A1D6D3 /* PhotosCollectionViewController.swift */,
+				97AD025C299D357C00CF34D5 /* PhotoDetailInformationViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		97C8CBB1299F65700039CCDE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9792CDB6299D0F4600A1D6D3 /* PhotosCollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

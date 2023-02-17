@@ -92,8 +92,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let favouritePhoto = favouritesPhotosList[indexPath.row]
-            removeFavouritePhoto(id: favouritePhoto.id)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let removeAlert = UIAlertController(title: "Remove from favourites",
+                                                message: """
+                                                Are you sure you want to remove
+                                                the photo from the favorites list?
+                                                """,
+                                                preferredStyle: .alert)
+
+            removeAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                removeFavouritePhoto(id: favouritePhoto.id)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }))
+
+            removeAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            present(removeAlert, animated: true)
         }
     }
 
